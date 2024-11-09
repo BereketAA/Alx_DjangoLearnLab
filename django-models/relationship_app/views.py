@@ -13,7 +13,8 @@ def book_list(request):
     context = {
         'books': books,
     }
-    return render(request, 'relationship_app/book_list.html', context)
+    return render(request, 'relationship_app/list_books.html', context)  # Use the correct template path
+
 
 # Class-based view to display details of a specific library
 class LibraryDetailView(DetailView):
