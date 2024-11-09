@@ -1,7 +1,3 @@
-ersion of your query_samples.py script with the missing filter query:
-
-python
-Copy code
 import os
 import django
 
@@ -9,20 +5,27 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LibraryProject.settings')
 django.setup()
 
-# Import models
-from relationship_app.models import Author, Book, Library, Librarian
+from relationship_app.models import Author, Book
 
 # Query all books by a specific author
 def get_books_by_author(author_name):
-    # Get the author object based on the author's name
-    author = Author.objects.get(name=author_name)
-    
-    # Use filter to get all books written by the author
-    books = Book.objects.filter(author=author)
-    
-    # Print out the books
-    for book in books:
-        print(book.title)
+    try:
+        # Retrieve the author by name
+        author = Author.objects.get(name=author_name)
+        
+        # Query all books by this author
+        books = Book.objects.filter(author=author)
+        
+        # Print the titles of the books
+        if books.exists():
+            print(f"Books by {author_name}:")
+            for book in books:
+                print(f"- {book.title}")
+        else:
+            print(f"No books found for author: {author_name}")
 
-# Example call to the function (replace 'Author Name' with an actual author's name)
-get_books_by_author('Author Name')
+    except Author.DoesNotExist:
+        print(f"Author named '{author_name}' does not exist in the database.")
+
+# Example usage
+get_books_by_author('Author Name')  # Replace 'Author Name' with an actual author's name
