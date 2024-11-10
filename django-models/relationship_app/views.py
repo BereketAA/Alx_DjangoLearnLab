@@ -1,24 +1,33 @@
-# relationship_app/views.py
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required, user_passes_test
 
-from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login, logout
-from django.contrib.auth.decorators import login_required
+# Check if the user is an Admin
+def is_admin(user):
+    return user.userprofile.role == 'Admin'
 
-# User Registration View
-def register(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)  # Automatically log the user in after successful registration
-            return redirect('book_list')  # Redirect to the book list or another page
-    else:
-        form = UserCreationForm()
-    return render(request, 'relationship_app/register.html', {'form': form})
+# Check if the user is a Librarian
+def is_librarian(user):
+    return user.userprofile.role == 'Librarian'
 
-# User Login View (Django provides this built-in)
-# You don't need to write a custom view for login, just use Django's built-in login URL
+# Check if the user is a Member
+def is_member(user):
+    return user.userprofile.role == 'Member'
 
-# User Logout View (Django provides this built-in)
-# You don't need to write a custom view for logout, just use Django's built-in logout URL
+# Admin view - Only accessible by users with Admin role
+@login_required
+@user_passes_test(is_admin)
+def admin_view(request):
+    return render(request, 'relationship_app/admin_view.html')
+
+# Librarian view - Only accessible by users with Librarian role
+@login_required
+@user_passes_test(is_librarian)
+def librarian_view(request):
+    return render(request, 'relationship_app/librarian_view.html')
+
+# Member view - Only accessible by users with Member role
+@login_required
+@user_passes_test(is_member)
+def member_view(request):
+    return render(request, 'relationship_app/member_view.html')
+
