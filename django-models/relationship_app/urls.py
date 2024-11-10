@@ -9,4 +9,5 @@ urlpatterns = [
 
     # URL for class-based view to display a library's details
     path('library/<int:pk>/', views.LibraryDetailView.as_view(), name='library_detail'),
+    path('libraries/', views.LibraryListView.as_view(), name='library_list'),  # Optional ListView for all libraries
 ]
