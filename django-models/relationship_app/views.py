@@ -9,12 +9,12 @@ from django.views.generic.detail import DetailView
 # relationship_app/views.py
 
 # Function-based view to list all books and their authors
-def book_list(request):
+def list_books(request):
     books = Book.objects.all()
     context = {
         'books': books,
     }
-    return render(request, 'relationship_app/list_books.html', context)  # Use the correct template path
+    return render(request, 'relationship_app/list_books.html', context)
 
 
 # Class-based view to display details of a specific library
