@@ -1,31 +1,21 @@
-import os
-import django
-
-# Set up Django environment
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LibraryProject.settings')
-django.setup()
-
-from relationship_app.models import Author, Book
+from relationship_app.models import Author, Book, Library, Librarian
 
 # Query all books by a specific author
 def get_books_by_author(author_name):
-    try:
-        # Retrieve the author by name
-        author = Author.objects.get(name=author_name)
-        
-        # Query all books by this author
-        books = Book.objects.filter(author=author)
-        
-        # Print the titles of the books
-        if books.exists():
-            print(f"Books by {author_name}:")
-            for book in books:
-                print(f"- {book.title}")
-        else:
-            print(f"No books found for author: {author_name}")
+    author = Author.objects.get(name=author_name)
+    books = author.books.all()
+    for book in books:
+        print(book.title)
 
-    except Author.DoesNotExist:
-        print(f"Author named '{author_name}' does not exist in the database.")
+# List all books in a library
+def get_books_in_library(library_name):
+    library = Library.objects.get(name=library_name)
+    books = library.books.all()
+    for book in books:
+        print(book.title)
 
-# Example usage
-get_books_by_author('Author Name')  # Replace 'Author Name' with an actual author's name
+# Retrieve the librarian for a library
+def get_librarian_for_library(library_name):
+    library = Library.objects.get(name=library_name)
+    librarian = library.librarian
+    print(f"Librarian for {library_name}: {librarian.name}")
