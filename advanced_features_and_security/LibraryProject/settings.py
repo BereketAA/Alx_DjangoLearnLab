@@ -130,3 +130,4 @@ LOGOUT_REDIRECT_URL = "/accounts/profile"
 
 
 
+AUTH_USER_MODEL = 'bookshelf.CustomUser'
