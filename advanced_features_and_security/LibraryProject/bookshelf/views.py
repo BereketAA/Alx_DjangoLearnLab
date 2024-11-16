@@ -49,3 +49,23 @@ def delete_article(request, article_id):
         article.delete()
         return redirect('article_list')
     return render(request, 'article_confirm_delete.html', {'article': article})
+
+
+
+
+
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import permission_required
+from .models import Book
+
+# View for displaying a list of books
+@permission_required('bookshelf.can_view_book_list', raise_exception=True)
+def book_list(request):
+    books = Book.objects.all()  # Fetch all books from the database
+    return render(request, 'bookshelf/book_list.html', {'books': books})
+
+# Additional view (if required)
+@permission_required('bookshelf.can_view_books', raise_exception=True)
+def books(request):
+    return render(request, 'bookshelf/books.html')

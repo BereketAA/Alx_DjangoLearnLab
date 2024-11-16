@@ -43,3 +43,13 @@ from .models import Profile
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'bio')
+
+
+from django.contrib import admin
+from .models import Book
+
+class BookAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'publication_year')  # Ensure publication_year exists
+    list_filter = ('publication_year',)  # Ensure this is a field or callable
+
+admin.site.register(Book, BookAdmin)
