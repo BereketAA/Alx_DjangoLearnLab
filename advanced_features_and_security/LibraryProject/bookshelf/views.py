@@ -76,6 +76,7 @@ def books(request):
 from django.shortcuts import render
 from .forms import BookSearchForm
 from .models import Book
+from .forms import ExampleForm
 
 def search_books(request):
     form = BookSearchForm(request.GET)  # Pass GET data to the form
