@@ -170,6 +170,8 @@ SECRET_KEY = get_env_variable("DJANGO_SECRET_KEY")
 
 
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # Enforce HTTPS redirects
 SECURE_SSL_REDIRECT = True  # Redirect all HTTP requests to HTTPS
 
