@@ -40,6 +40,7 @@ INSTALLED_APPS = [
      # Other installed apps
     'bookshelf',
     'relationship_app',
+    'csp',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,35 @@ LOGOUT_REDIRECT_URL = "/accounts/profile"
 
 
 AUTH_USER_MODEL = 'bookshelf.CustomUser'
+
+# Configure CSP directives
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", "https://trusted.cdn.com")
+CSP_STYLE_SRC = ("'self'", "https://trusted.cdn.com")
+
+
+import os
+from django.core.exceptions import ImproperlyConfigured
+
+def get_env_variable(var_name):
+    """Get the environment variable or return an exception."""
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        raise ImproperlyConfigured(f"The {var_name} environment variable is not set.")
+
+# Debug mode should be False in production
+DEBUG = False
+
+# Allowed hosts to prevent host header attacks
+ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com']
+
+# Secure settings
+SECURE_BROWSER_XSS_FILTER = True  # Enable browser's XSS protection
+X_FRAME_OPTIONS = 'DENY'  # Prevent clickjacking
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent MIME-type sniffing
+CSRF_COOKIE_SECURE = True  # Ensure CSRF cookie is sent over HTTPS
+SESSION_COOKIE_SECURE = True  # Ensure session cookie is sent over HTTPS
+
+# Use environment variables for sensitive information
+SECRET_KEY = get_env_variable("DJANGO_SECRET_KEY")

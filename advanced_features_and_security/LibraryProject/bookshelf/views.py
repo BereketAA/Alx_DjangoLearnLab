@@ -72,10 +72,15 @@ def books(request):
 
 
 
+
+from django.shortcuts import render
+from .forms import BookSearchForm
+from .models import Book
+
 def search_books(request):
-    form = BookSearchForm(request.GET)
+    form = BookSearchForm(request.GET)  # Pass GET data to the form
+    books = []
     if form.is_valid():
         query = form.cleaned_data['query']
-        books = Book.objects.filter(title__icontains=query)
-        return render(request, 'bookshelf/book_list.html', {'form': form, 'books': books})
-    return render(request, 'bookshelf/book_list.html', {'form': form, 'books': []})
+        books = Book.objects.filter(title__icontains=query)  # Safe query
+    return render(request, 'bookshelf/book_list.html', {'form': form, 'books': books})
