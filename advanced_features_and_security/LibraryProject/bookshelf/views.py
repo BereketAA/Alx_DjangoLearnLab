@@ -69,3 +69,13 @@ def book_list(request):
 @permission_required('bookshelf.can_view_books', raise_exception=True)
 def books(request):
     return render(request, 'bookshelf/books.html')
+
+
+
+def search_books(request):
+    form = BookSearchForm(request.GET)
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        books = Book.objects.filter(title__icontains=query)
+        return render(request, 'bookshelf/book_list.html', {'form': form, 'books': books})
+    return render(request, 'bookshelf/book_list.html', {'form': form, 'books': []})
