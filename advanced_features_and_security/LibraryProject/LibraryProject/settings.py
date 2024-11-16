@@ -164,3 +164,25 @@ SESSION_COOKIE_SECURE = True  # Ensure session cookie is sent over HTTPS
 
 # Use environment variables for sensitive information
 SECRET_KEY = get_env_variable("DJANGO_SECRET_KEY")
+
+
+
+
+
+
+# Enforce HTTPS redirects
+SECURE_SSL_REDIRECT = True  # Redirect all HTTP requests to HTTPS
+
+# HTTP Strict Transport Security (HSTS)
+SECURE_HSTS_SECONDS = 31536000  # One year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply to all subdomains
+SECURE_HSTS_PRELOAD = True  # Allow preloading into browsers
+
+# Secure cookies
+SESSION_COOKIE_SECURE = True  # Only send session cookies over HTTPS
+CSRF_COOKIE_SECURE = True  # Only send CSRF cookies over HTTPS
+
+# Security headers
+X_FRAME_OPTIONS = "DENY"  # Protect against clickjacking
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent browsers from MIME-sniffing
+SECURE_BROWSER_XSS_FILTER = True  # Enable XSS filtering in the browse
