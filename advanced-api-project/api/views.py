@@ -1,5 +1,8 @@
 from django.shortcuts import render
 
+
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+
 # Create your views here.
 
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView
