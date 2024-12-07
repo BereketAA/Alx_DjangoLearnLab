@@ -13,6 +13,7 @@ class CustomUserCreationForm(UserCreationForm):
 
 from django import forms
 from taggit.forms import TagField
+from taggit.forms import TagWidget
 from .models import Post
 
 class PostForm(forms.ModelForm):
