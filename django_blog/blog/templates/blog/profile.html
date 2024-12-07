@@ -1,0 +1,7 @@
+<h1>Your Profile</h1>
+<p>{{ profile.bio }}</p>
+<form method="post">
+    {% csrf_token %}
+    <!-- Add fields for editing profile -->
+    <button type="submit">Update Profile</button>
+</form>
