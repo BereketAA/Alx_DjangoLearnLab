@@ -16,7 +16,13 @@ from taggit.forms import TagField
 from .models import Post
 
 class PostForm(forms.ModelForm):
-    tags = TagField(required=False)  # Add tags field
+    tags = forms.CharField(
+        required=False,
+        widget=TagWidget(attrs={
+            'class': 'form-control',
+            'placeholder': 'Add tags separated by commas'
+        })
+    )
 
     class Meta:
         model = Post
