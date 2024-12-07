@@ -1,7 +1,9 @@
 <h1>Blog Posts</h1>
 <ul>
     {% for post in posts %}
-        <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+        <li>
+            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+            <p>Tags: {{ post.tags.all|join:", " }}</p>
+        </li>
     {% endfor %}
 </ul>
-<a href="{% url 'post-create' %}">Create New Post</a>
