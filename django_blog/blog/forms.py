@@ -12,12 +12,15 @@ class CustomUserCreationForm(UserCreationForm):
         
 
 from django import forms
+from taggit.forms import TagField
 from .models import Post
 
 class PostForm(forms.ModelForm):
+    tags = TagField(required=False)  # Add tags field
+
     class Meta:
         model = Post
-        fields = ['title', 'content']
+        fields = ['title', 'content', 'tags']
         
         
 from django import forms

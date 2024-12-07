@@ -37,3 +37,15 @@ urlpatterns += [
     path('comment/<int:pk>/edit/', CommentUpdateView.as_view(), name='comment-update'),
     path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'),
 ]
+
+
+
+from django.urls import path
+from .views import PostListView, PostDetailView, SearchResultsView
+from taggit.views import TaggedObjectList
+
+urlpatterns = [
+    # Other URL patterns
+    path('search/', SearchResultsView.as_view(), name='search-results'),
+    path('tags/<slug:slug>/', TaggedObjectList.as_view(model=Post), name='posts-by-tag'),
+]

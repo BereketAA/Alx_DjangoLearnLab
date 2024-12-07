@@ -38,3 +38,24 @@ This module adds a comment system to the Django blog project. Users can leave co
 ## Security
 - Login required for commenting.
 - Authorization checks for editing and deleting comments.
+
+
+
+# Tagging and Search Features in Django Blog
+
+## Tagging
+- Posts can have multiple tags to categorize content.
+- Tags are displayed on the post detail page and link to a filtered list of posts with the same tag.
+
+## Search
+- Users can search posts by title, content, or tags.
+- Use the search bar on the navigation menu to enter keywords.
+
+## URLs
+- `/search/` - Search for posts.
+- `/tags/<slug:slug>/` - View posts by tag.
+
+## Setup Instructions
+1. Install `django-taggit`:
+   ```bash
+   pip install django-taggit
