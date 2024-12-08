@@ -47,5 +47,6 @@ from taggit.views import TaggedObjectList
 urlpatterns = [
     # Other URL patterns
     path('search/', SearchResultsView.as_view(), name='search-results'),
+    path('tags/<slug:tag_slug>/', PostByTagListView.as_view(), name='posts-by-tag'),
     path('tags/<slug:slug>/', TaggedObjectList.as_view(model=Post), name='posts-by-tag'),
 ]
