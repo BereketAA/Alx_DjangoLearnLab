@@ -26,4 +26,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/accounts/', include('accounts.urls')),
     path('', root_redirect),
+    path('api/posts/', include('posts.urls')),
 ]
