@@ -9,7 +9,7 @@ User = get_user_model()
 
 class RegisterSerializer(serializers.ModelSerializer):
     # Explicitly define a password field with write-only restriction
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField()
     token = serializers.CharField(read_only=True)
 
     class Meta:
