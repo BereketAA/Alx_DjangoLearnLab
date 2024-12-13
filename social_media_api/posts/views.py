@@ -4,6 +4,7 @@ from django.shortcuts import render
 from rest_framework import viewsets, permissions
 from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
+from django.contrib.auth import get_user_model
 from rest_framework import filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -29,13 +30,25 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
         
 
+CustomUser = get_user_model()
 
 class FeedView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         user = request.user
-        followed_users = user.following.all()
-        posts = Post.objects.filter(author__in=followed_users).order_by('-created_at')
+        following_users = user.following.all()
+        posts = Post.objects.filter(author__in=following_users).order_by('-created_at')
         serializer = PostSerializer(posts, many=True)
-        return Response(serializer.data)
+        
+        feed_data = [
+            {
+                "id": post.id,
+                "author": post.author.username,
+                "title": post.title,
+                "content": post.content,
+                "created_at": post.created_at,
+            }
+            for post in posts
+        ]
+        return Response(feed_data)
