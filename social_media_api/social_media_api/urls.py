@@ -17,9 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from . import views
+from django.shortcuts import redirect
+
+def root_redirect(request):
+    return redirect('register')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/accounts/', include('accounts.urls')),
-    path('', views.homepage, name='homepage'),
+    path('', root_redirect),
 ]
