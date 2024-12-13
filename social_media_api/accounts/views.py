@@ -7,10 +7,11 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from rest_framework import status, permissions, viewsets
+from rest_framework import status, permissions, generics, viewsets
 from django.shortcuts import get_object_or_404
 from .models import CustomUser
 from .serializers import UserSerializer
+from django.contrib.auth import get_user_model
 
 @api_view(['POST'])
 def register_user(request):
@@ -74,4 +75,20 @@ class FollowViewSet(viewsets.ViewSet):
         user_to_unfollow = get_object_or_404(CustomUser, pk=user_id)
         request.user.unfollow(user_to_unfollow)
         return Response({'message': f"You have unfollowed {user_to_unfollow.username}."}, status=status.HTTP_200_OK)
+        
+
+
+CustomUser = get_user_model()
+
+class UserListView(generics.GenericAPIView):
+    """
+    A view to list all users.
+    """
+    queryset = CustomUser.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        users = self.get_queryset()
+        user_data = [{"id": user.id, "username": user.username} for user in users]
+        return Response(user_data)
 
