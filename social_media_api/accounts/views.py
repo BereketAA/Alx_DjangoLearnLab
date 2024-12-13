@@ -7,7 +7,10 @@ from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from rest_framework import status
+from rest_framework import status, permissions, viewsets
+from django.shortcuts import get_object_or_404
+from .models import CustomUser
+from .serializers import UserSerializer
 
 @api_view(['POST'])
 def register_user(request):
@@ -53,4 +56,22 @@ def user_profile(request):
         "date_joined": request.user.date_joined,
     }, status=status.HTTP_200_OK)
 
+
+
+
+class FollowViewSet(viewsets.ViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def follow_user(self, request, user_id=None):
+        user_to_follow = get_object_or_404(CustomUser, pk=user_id)
+        if user_to_follow == request.user:
+            return Response({'error': "You cannot follow yourself."}, status=status.HTTP_400_BAD_REQUEST)
+
+        request.user.follow(user_to_follow)
+        return Response({'message': f"You are now following {user_to_follow.username}."}, status=status.HTTP_200_OK)
+
+    def unfollow_user(self, request, user_id=None):
+        user_to_unfollow = get_object_or_404(CustomUser, pk=user_id)
+        request.user.unfollow(user_to_unfollow)
+        return Response({'message': f"You have unfollowed {user_to_unfollow.username}."}, status=status.HTTP_200_OK)
 

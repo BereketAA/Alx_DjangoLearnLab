@@ -18,13 +18,21 @@ from django.contrib import admin
 from django.urls import path, include
 from . import views
 from django.shortcuts import redirect
+from .views import FollowViewSet
 
 def root_redirect(request):
     return redirect('register')
+    
+follow_view = FollowViewSet.as_view({
+    'post': 'follow_user',
+    'delete': 'unfollow_user'
+})
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/accounts/', include('accounts.urls')),
     path('', root_redirect),
     path('api/posts/', include('posts.urls')),
+    path('follow/<int:user_id>/', follow_view, name='follow_user'),
+    path('unfollow/<int:user_id>/', follow_view, name='unfollow_user'),
 ]
