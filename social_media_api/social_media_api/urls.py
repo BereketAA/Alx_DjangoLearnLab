@@ -34,6 +34,6 @@ urlpatterns = [
     path('api/accounts/', include('accounts.urls')),
     path('', root_redirect),
     path('api/posts/', include('posts.urls')),
-    path('follow/<int:user_id>/', follow_view, name='follow_user'),
-    path('unfollow/<int:user_id>/', follow_view, name='unfollow_user'),
+    path('follow/<int:user_id>/', FollowUserView.as_view(), name='follow-user'),
+    path('unfollow/<int:user_id>/', UnfollowUserView.as_view(), name='unfollow-user'),
 ]
