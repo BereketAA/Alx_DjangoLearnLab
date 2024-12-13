@@ -19,6 +19,7 @@ from django.urls import path, include
 from . import views
 from django.shortcuts import redirect
 from .views import FollowViewSet
+from .views import FollowUserView, UnfollowUserView
 
 def root_redirect(request):
     return redirect('register')
